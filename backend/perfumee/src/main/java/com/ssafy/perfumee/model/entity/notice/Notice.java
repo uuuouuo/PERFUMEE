@@ -1,11 +1,6 @@
 package com.ssafy.perfumee.model.entity.notice;
 
-import com.ssafy.perfumee.model.entity.review.Review;
-import com.ssafy.perfumee.model.entity.user.User;
-
 import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 public class Notice {
