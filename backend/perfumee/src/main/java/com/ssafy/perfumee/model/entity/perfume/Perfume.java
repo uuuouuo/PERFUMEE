@@ -24,7 +24,7 @@ public class Perfume {
   @Column(nullable = false, length = 45)
   private String gender;
 
-  @Column(nullable = false, length = 100)
+  @Column(name = "PERFUME_IMAGE", nullable = false, length = 100)
   private String image;
 
   @Column(nullable = false, precision = 3, scale = 2)

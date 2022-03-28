@@ -14,6 +14,28 @@ public class User {
   @Column(name = "USER_NO")
   private Integer no;
 
+  @Column(nullable = false, length = 45)
+  private String id;
 
+  @Column(nullable = false, length = 100)
+  private String password;
+
+  @Column(nullable = false, length = 45, unique = true)
+  private String nickname;
+
+  @Column(nullable = false, length = 45)
+  private String email;
+
+  @Column(name = "PROFILE_IMAGE", nullable = false, length = 100)
+  private String image;
+
+  @Column(nullable = false, length = 45)
+  private String gender;
+
+  @Column(nullable = false, columnDefinition = "VARCHAR(45) DEFAULT 'user'")
+  private String role;
+
+  @Column(nullable = false)
+  private Boolean isExist;
 
 }
