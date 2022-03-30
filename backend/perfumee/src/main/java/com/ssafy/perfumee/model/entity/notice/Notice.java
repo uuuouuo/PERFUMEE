@@ -1,8 +1,13 @@
 package com.ssafy.perfumee.model.entity.notice;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,4 +19,14 @@ public class Notice {
 
     @Column(length = 1000)
     private String content;
+
+    public Notice(String subject, String content){
+        this.subject = subject;
+        this.content = content;
+    }
+
+    public void updateNotice(String subject, String content){
+        this.subject = subject;
+        this.content = content;
+    }
 }
