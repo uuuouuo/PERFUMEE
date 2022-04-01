@@ -1,5 +1,8 @@
 package com.ssafy.perfumee.model.entity.perfume;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Perfume {
 
   @Id
@@ -30,4 +35,12 @@ public class Perfume {
   @Column(nullable = false, precision = 3, scale = 2)
   private BigDecimal rating;
 
+  public Perfume(Integer no, String name, String brand, String gender, String image, BigDecimal rating) {
+    this.no = no;
+    this.name = name;
+    this.brand = brand;
+    this.gender = gender;
+    this.image = image;
+    this.rating = rating;
+  }
 }

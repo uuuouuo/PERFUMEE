@@ -29,7 +29,7 @@ public class NoticeController {
 
     @PutMapping("/{noticeNo}")
     public ResponseEntity<UpdateRes> updateNotice(
-            @PathVariable Integer noticeNo,
+            @PathVariable("noticeNo") Integer noticeNo,
             @RequestPart(value="request") UpdateReq request){
 
         UpdateRes response = noticeService.updateNotice(noticeNo, request);
@@ -39,7 +39,7 @@ public class NoticeController {
 
     @DeleteMapping("/{noticeNo}")
     public ResponseEntity<String> deleteNotice(
-            @PathVariable Integer noticeNo) {
+            @PathVariable("noticeNo") Integer noticeNo) {
 
         noticeService.deleteNotice(noticeNo);
         return new ResponseEntity<>("Delete Success", HttpStatus.OK);
