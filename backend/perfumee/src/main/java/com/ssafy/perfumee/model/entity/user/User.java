@@ -1,11 +1,14 @@
 package com.ssafy.perfumee.model.entity.user;
 
+import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class User {
 
@@ -37,5 +40,24 @@ public class User {
 
   @Column(nullable = false)
   private Boolean isExist;
+
+  public void createUser(SignUpReq request, String password, String image) {
+    this.id = request.getId();
+    this.password = password;
+    this.nickname = request.getNickname();
+    this.email = request.getEmail();
+    this.image = image;
+    this.gender = request.getGender();
+    this.role = "user";
+    this.isExist = true;
+  }
+
+  public void changeImage(String image){
+    this.image = image;
+  }
+
+  public void deleteUser(){
+    this.isExist = false;
+  }
 
 }
