@@ -1,13 +1,19 @@
 package com.ssafy.perfumee.model.entity.user;
 
-import com.ssafy.perfumee.model.entity.perfume.Note;
-
-import javax.persistence.*;
-
 import static javax.persistence.FetchType.LAZY;
+
+import com.ssafy.perfumee.model.entity.perfume.Note;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Taste {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TASTE_NO")
@@ -20,4 +26,6 @@ public class Taste {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "NOTE_NO")
     private Note note;
+
 }
+

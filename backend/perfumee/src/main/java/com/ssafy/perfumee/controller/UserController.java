@@ -7,9 +7,13 @@ import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateRes;
 import com.ssafy.perfumee.service.user.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequestMapping("/user")
@@ -99,10 +105,30 @@ public class UserController {
 
   }
 
-    // 관심향 받아와서 저장.
-//    @PostMapping("/{userId}")
-//    public ResponseEntity<String[]> findNotes (@RequestBody LoginReq loginReq) {
-//
-//    }
+//     관심향 받아와서 저장.
+  @PostMapping("/recomm")
+  public ResponseEntity<ArrayList<String>> findNotes (@RequestBody List<String> notes) {
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    JSONObject jsonData = new JSONObject();
+    jsonData.put("첫번째", notes);
+    HttpEntity<JSONObject> request = new HttpEntity<>(jsonData, headers);
+
+    WebClient webClient = WebClient.builder()
+        .baseUrl("localhost:8080")
+        .build();
+
+    ArrayList<String> perfumes = webClient.post()
+        .uri("localhost:8000/perfume/recomm")
+        .accept(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .retrieve()
+        //     아래의 onStatus는 error handling
+        .bodyToMono(ArrayList.class) // KAKAO의 유저 정보를 넣을 Dto 클래스
+        .block();
+
+    return new ResponseEntity<>(perfumes,HttpStatus.OK);
+  }
 
 }

@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
     Optional<Note> findByNo(Integer noteNo);
+    Optional<Note> findByName(String name);
 }

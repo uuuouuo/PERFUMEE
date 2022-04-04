@@ -35,12 +35,11 @@ public class Perfume {
   @Column(nullable = false, precision = 3, scale = 2)
   private BigDecimal rating;
 
-  public Perfume(Integer no, String name, String brand, String gender, String image, BigDecimal rating) {
-    this.no = no;
+  public Perfume(String name, String brand, BigDecimal rating, String gender, String image) {
     this.name = name;
     this.brand = brand;
+    this.rating = rating;
     this.gender = gender;
     this.image = image;
-    this.rating = rating;
   }
 }

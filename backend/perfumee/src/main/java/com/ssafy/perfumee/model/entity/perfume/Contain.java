@@ -4,15 +4,12 @@ import static javax.persistence.FetchType.LAZY;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import lombok.Getter;
-import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
 
 @Entity
 @Getter
@@ -33,5 +30,13 @@ public class Contain {
 
   @Column(nullable = false, length = 10)
   private String type;
+
+  public Contain(){}
+
+  public Contain(Perfume perfume, String type, Note note) {
+    this.perfume = perfume;
+    this.type = type;
+    this.note = note;
+  }
 
 }
