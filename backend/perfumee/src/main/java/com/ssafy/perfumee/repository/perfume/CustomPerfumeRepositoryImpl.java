@@ -27,8 +27,8 @@ public class CustomPerfumeRepositoryImpl implements CustomPerfumeRepository {
 
 //    select distinct *
 //    from perfume
-//    where brand = "Brand" &&
-//    gender = "gender" &&
+//    where brand in (Brands) &&
+//    gender in (Genders) &&
 //    perfume.perfume_no in (
 //        select distinct perfume_no
 //        from contain

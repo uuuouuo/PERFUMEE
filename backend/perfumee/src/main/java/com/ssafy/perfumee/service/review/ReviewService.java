@@ -11,12 +11,14 @@ import com.ssafy.perfumee.model.entity.user.User;
 import com.ssafy.perfumee.repository.perfume.PerfumeRepository;
 import com.ssafy.perfumee.repository.review.ReviewRepository;
 import com.ssafy.perfumee.repository.user.UserRepository;
+import com.ssafy.perfumee.service.validation.ValidateExist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +27,12 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final PerfumeRepository perfumeRepository;
+    private ValidateExist validateExist = new ValidateExist();
 
     public ReviewRes writeReview(ReviewReq request){
         User user = userRepository.findById(request.getUser().getNo()).get();
-        Perfume perfume = perfumeRepository.findByNo(request.getPerfume().getNo()).get();
+        Optional<Perfume> perfumeOptional = perfumeRepository.findByNo(request.getPerfume().getNo());
+        Perfume perfume = validateExist.findPerfume(perfumeOptional);
         Review review = new Review(user, perfume, request.getContent(), request.getRating());
         reviewRepository.save(review);
         ReviewRes reviewRes = new ReviewRes(review.getNo(), review.getUser(), review.getPerfume(), review.getContent(), review.getRating(), review.getRegDate(), review.getUpdateDate());
@@ -36,8 +40,10 @@ public class ReviewService {
     }
 
     public List<ReviewRes> getReview(Integer perfumeNo){
-        Perfume perfume = perfumeRepository.findByNo(perfumeNo).get();
-        List<Review> reviewList = reviewRepository.findByPerfumeAndIsExist(perfume, true);
+        Optional<Perfume> perfumeOptional = perfumeRepository.findByNo(perfumeNo);
+        Perfume perfume = validateExist.findPerfume(perfumeOptional);
+        Optional<List<Review>> reviewListOptional = reviewRepository.findByPerfumeAndIsExist(perfume, true);
+        List<Review> reviewList = validateExist.findReviewList(reviewListOptional);
         List<ReviewRes> reviewResList = new ArrayList<>();
         for(Review review : reviewList){
             ReviewRes reviewRes = new ReviewRes(review.getNo(), review.getUser(), review.getPerfume(), review.getContent(), review.getRating(), review.getRegDate(), review.getUpdateDate());
@@ -48,14 +54,16 @@ public class ReviewService {
 
 
     public UpdateReviewRes updateReview(Integer reviewNo, UpdateReviewReq request){
-        Review review = reviewRepository.findByNo(reviewNo).get();
+        Optional<Review> reviewOptional = reviewRepository.findByNo(reviewNo);
+        Review review = validateExist.findReview(reviewOptional);
         review.updateReview(request.getContent(), request.getRating());
         UpdateReviewRes updateReviewRes = new UpdateReviewRes(review.getNo(), review.getUser(), review.getPerfume(), review.getContent(), review.getRating(), review.getRegDate(), review.getUpdateDate());
         return updateReviewRes;
     }
 
     public void deleteReview(Integer reviewNo){
-        Review review = reviewRepository.findByNo(reviewNo).get();
+        Optional<Review> reviewOptional = reviewRepository.findByNo(reviewNo);
+        Review review = validateExist.findReview(reviewOptional);
         review.deleteReview();
     }
 }

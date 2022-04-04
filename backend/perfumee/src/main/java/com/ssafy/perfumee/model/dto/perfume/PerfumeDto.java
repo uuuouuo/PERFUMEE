@@ -1,5 +1,6 @@
 package com.ssafy.perfumee.model.dto.perfume;
 
+import com.ssafy.perfumee.model.entity.perfume.Note;
 import com.ssafy.perfumee.model.entity.perfume.Perfume;
 import lombok.*;
 
@@ -17,14 +18,16 @@ public class PerfumeDto {
         private String gender;
         private String image;
         private BigDecimal rating;
+        private List<NoteDto.NoteRes> notes;
 
-        public PerfumeRes(Integer no, String name, String brand, String gender, String image, BigDecimal rating){
+        public PerfumeRes(Integer no, String name, String brand, String gender, String image, BigDecimal rating, List<NoteDto.NoteRes> notes){
             this.no = no;
             this.name = name;
             this.brand = brand;
             this.gender = gender;
             this.image = image;
             this.rating = rating;
+            this.notes = notes;
         }
     }
 
