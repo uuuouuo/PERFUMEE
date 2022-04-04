@@ -21,7 +21,7 @@ public class ReviewController {
 
     @PostMapping("")
     public ResponseEntity<ReviewRes> createReview(
-            @RequestPart(value="request") ReviewReq request) {
+            @RequestBody ReviewReq request) {
 
         ReviewRes response = reviewService.writeReview(request);
 
@@ -38,7 +38,7 @@ public class ReviewController {
     @PutMapping("/{reviewNo}")
     public ResponseEntity<UpdateReviewRes> updateReview(
             @PathVariable("reviewNo") Integer reviewNo,
-            @RequestPart(value="request") UpdateReviewReq request) {
+            @RequestBody UpdateReviewReq request) {
 
         UpdateReviewRes response = reviewService.updateReview(reviewNo, request);
 
