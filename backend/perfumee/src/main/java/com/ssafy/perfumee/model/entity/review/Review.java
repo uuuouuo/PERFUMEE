@@ -1,5 +1,6 @@
 package com.ssafy.perfumee.model.entity.review;
 
+import static java.lang.Boolean.TRUE;
 import static javax.persistence.FetchType.LAZY;
 
 import com.ssafy.perfumee.model.entity.perfume.Perfume;
@@ -13,9 +14,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Review {
 
   @Id
@@ -23,7 +31,7 @@ public class Review {
   @Column(name = "REVIEW_NO")
   private Integer no;
 
-  @ManyToOne(fetch = LAZY)
+  @ManyToOne
   @JoinColumn(name = "USER_NO", nullable = false)
   private User user;
 
@@ -42,10 +50,24 @@ public class Review {
   private Timestamp regDate;
 
   @Column(nullable = false)
-  @CreationTimestamp
+  @UpdateTimestamp
   private Timestamp updateDate;
 
   @Column(nullable = false)
   private Boolean isExist;
 
+  public Review(User user, Perfume perfume, String content, BigDecimal rating) {
+    this.user = user;
+    this.perfume = perfume;
+    this.content = content;
+    this.rating = rating;
+    this.isExist = true;
+  }
+  public void updateReview(String content, BigDecimal rating){
+    this.content = content;
+    this.rating = rating;
+  }
+  public void deleteReview(){
+    this.isExist = false;
+  }
 }

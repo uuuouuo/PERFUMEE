@@ -10,9 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import lombok.Getter;
 import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
 
 @Entity
+@Getter
 public class Contain {
 
   @Id
@@ -28,7 +31,7 @@ public class Contain {
   @JoinColumn(name = "NOTE_NO", nullable = false)
   private Note note;
 
-  @Column(nullable = false)
-  private Boolean type;
+  @Column(nullable = false, length = 10)
+  private String type;
 
 }
