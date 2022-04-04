@@ -1,0 +1,71 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+}
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+//	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.5.RELEASE'
+	implementation 'com.auth0:java-jwt:3.10.3'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+	implementation 'org.json:json:20190722'
+    implementation 'junit:junit:4.13.1'
+
+    compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//testImplementation 'org.springframework.security:spring-security-test'
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	implementation 'com.querydsl:querydsl-apt:5.0.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+def querydslSrcDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+	main.java.srcDirs querydslSrcDir
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
