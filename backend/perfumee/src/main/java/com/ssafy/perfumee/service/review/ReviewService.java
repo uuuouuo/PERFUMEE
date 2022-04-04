@@ -1,6 +1,7 @@
 package com.ssafy.perfumee.service.review;
 
 
+import com.ssafy.perfumee.model.dto.review.ReviewDto;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.ReviewReq;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.ReviewRes;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.UpdateReviewRes;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +54,15 @@ public class ReviewService {
         return reviewResList;
     }
 
+    public Boolean check(Integer reviewNo, ReviewDto.checkReviewReq request){
+        Optional<Review> reviewOptional = reviewRepository.findByNo(reviewNo);
+        Review review = validateExist.findReview(reviewOptional);
+        String authUserId = review.getUser().getId();
+        if(authUserId.equals(request.getUserId()))
+            return true;
+        else
+            return false;
+    }
 
     public UpdateReviewRes updateReview(Integer reviewNo, UpdateReviewReq request){
         Optional<Review> reviewOptional = reviewRepository.findByNo(reviewNo);
