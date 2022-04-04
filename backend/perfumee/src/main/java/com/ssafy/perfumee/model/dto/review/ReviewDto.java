@@ -13,14 +13,14 @@ public class ReviewDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReviewReq {
-        private User user;
-        private Perfume perfume;
+        private String userId;
+        private Integer perfumeNo;
         private String content;
         private BigDecimal rating;
 
-        public ReviewReq(User user, Perfume perfume, String content, BigDecimal rating) {
-            this.user = user;
-            this.perfume = perfume;
+        public ReviewReq(String userId, Integer perfumeNo, String content, BigDecimal rating) {
+            this.userId = userId;
+            this.perfumeNo = perfumeNo;
             this.content = content;
             this.rating = rating;
         }
@@ -51,15 +51,11 @@ public class ReviewDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReviewReq {
-        private Integer no;
-        private User user;
-        private Perfume perfume;
         private String content;
         private BigDecimal rating;
-        private Timestamp regDate;
-        private Timestamp updateDate;
 
-        public UpdateReviewReq(Integer no, User user, Perfume perfume, String content, BigDecimal rating, Timestamp regDate, Timestamp updateDate) {
+
+        public UpdateReviewReq(String content, BigDecimal rating) {
             this.content = content;
             this.rating = rating;
         }

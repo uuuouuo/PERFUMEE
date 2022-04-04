@@ -30,8 +30,8 @@ public class ReviewService {
     private ValidateExist validateExist = new ValidateExist();
 
     public ReviewRes writeReview(ReviewReq request){
-        User user = userRepository.findById(request.getUser().getNo()).get();
-        Optional<Perfume> perfumeOptional = perfumeRepository.findByNo(request.getPerfume().getNo());
+        User user = userRepository.findById(request.getUserId()).get();
+        Optional<Perfume> perfumeOptional = perfumeRepository.findByNo(request.getPerfumeNo());
         Perfume perfume = validateExist.findPerfume(perfumeOptional);
         Review review = new Review(user, perfume, request.getContent(), request.getRating());
         reviewRepository.save(review);
