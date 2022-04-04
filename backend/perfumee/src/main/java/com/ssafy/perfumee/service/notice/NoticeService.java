@@ -39,7 +39,6 @@ public class NoticeService {
                         notice.getNo(), notice.getSubject(), notice.getContent()
                 )
         );
-
         return noticeResPage;
     }
 
