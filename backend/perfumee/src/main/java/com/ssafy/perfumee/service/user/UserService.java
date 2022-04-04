@@ -6,10 +6,14 @@ import com.ssafy.perfumee.model.dto.user.UserDto.LoginReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateRes;
+import com.ssafy.perfumee.model.entity.perfume.Note;
 import com.ssafy.perfumee.model.entity.user.User;
+import com.ssafy.perfumee.repository.perfume.NoteRepository;
 import com.ssafy.perfumee.repository.user.UserRepository;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final NoteRepository noteRepository;
   private final JwtProvider jwtProvider;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -94,6 +99,17 @@ public class UserService {
 
     User user = getUser(id);
     user.deleteUser();
+
+  }
+
+  public List<String> getNotes() {
+
+    List<Note> noteList = noteRepository.findAll();
+
+    List<String> noteNames = new ArrayList<>();
+    noteList.stream().forEach(n -> noteNames.add(n.getName()));
+
+    return noteNames;
 
   }
 

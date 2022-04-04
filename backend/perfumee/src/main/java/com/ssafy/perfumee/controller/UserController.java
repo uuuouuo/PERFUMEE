@@ -7,6 +7,7 @@ import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateRes;
 import com.ssafy.perfumee.service.user.UserService;
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -89,5 +90,19 @@ public class UserController {
     return ResponseEntity.ok().body("회원 탈퇴 완료");
 
   }
+
+  @GetMapping("/survey")
+  public ResponseEntity<List<String>> findNotes () {
+
+    List<String> notes = userService.getNotes();
+    return new ResponseEntity<>(notes, HttpStatus.OK);
+
+  }
+
+    // 관심향 받아와서 저장.
+//    @PostMapping("/{userId}")
+//    public ResponseEntity<String[]> findNotes (@RequestBody LoginReq loginReq) {
+//
+//    }
 
 }
