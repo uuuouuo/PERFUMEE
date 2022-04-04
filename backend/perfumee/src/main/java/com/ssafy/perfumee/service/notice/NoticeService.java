@@ -39,12 +39,11 @@ public class NoticeService {
                         notice.getNo(), notice.getSubject(), notice.getContent()
                 )
         );
-
         return noticeResPage;
     }
 
     public NoticeRes writeNotice(NoticeReq request){
-        Notice notice = new Notice(request.getSubject(), request.getSubject());
+        Notice notice = new Notice(request.getSubject(), request.getContent());
         noticeRepository.save(notice);
         NoticeRes response = new NoticeRes(notice.getNo(), notice.getSubject(), notice.getContent());
         return response;
