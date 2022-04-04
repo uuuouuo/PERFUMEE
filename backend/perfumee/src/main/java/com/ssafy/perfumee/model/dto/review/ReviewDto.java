@@ -82,4 +82,14 @@ public class ReviewDto {
             this.updateDate = updateDate;
         }
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class checkReviewReq {
+        private String userId;
+
+        public checkReviewReq(String userId) {
+            this.userId = userId;
+        }
+    }
 }

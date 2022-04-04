@@ -35,7 +35,7 @@ public class Review {
   @JoinColumn(name = "USER_NO", nullable = false)
   private User user;
 
-  @ManyToOne(fetch = LAZY)
+  @ManyToOne
   @JoinColumn(name = "PERFUME_NO", nullable = false)
   private Perfume perfume;
 
