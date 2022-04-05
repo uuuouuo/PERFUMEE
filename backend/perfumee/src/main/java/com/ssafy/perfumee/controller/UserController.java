@@ -46,7 +46,7 @@ public class UserController {
     response.addHeader(JwtProperties.HEADER_STRING,
         JwtProperties.TOKEN_PREFIX + jwtToken);
 
-    return ResponseEntity.ok().body("JWT 생성 완료");
+    return ResponseEntity.ok().body(jwtToken);
 
   }
 
