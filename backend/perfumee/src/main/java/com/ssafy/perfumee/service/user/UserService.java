@@ -27,15 +27,13 @@ public class UserService {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
-  public void signUp(SignUpReq request, MultipartFile image) {
+  public void signUp(SignUpReq request) {
 
     String rawPassword = request.getPassword();
     String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
-    String imageUrl = getImage(image, request.getId());
-
     User user = new User();
-    user.createUser(request, encPassword, imageUrl);
+    user.createUser(request, encPassword);
 
     userRepository.save(user);
 
@@ -76,14 +74,12 @@ public class UserService {
   }
 
   @Transactional
-  public UpdateRes editUser(String id, UpdateReq request, MultipartFile image) {
+  public UpdateRes editUser(String id, UpdateReq request) {
 
     User user = getUser(id);
 
-    String imageUrl = getImage(image, id);
-    user.changeImage(imageUrl);
 
-    UpdateRes response = new UpdateRes(request, imageUrl);
+    UpdateRes response = new UpdateRes(request);
 
     return response;
 
@@ -109,30 +105,6 @@ public class UserService {
     }
 
     return user;
-
-  }
-
-  public String getImage(MultipartFile image, String id) {
-
-    String imageUrl = "";
-    if(image.isEmpty()){
-      imageUrl = "C://images/profile/basic_profile.png";
-    }
-    else {
-      String fileName = "C://images/profile/" + id + ".png";
-
-      File dest = new File(fileName);
-      try {
-        image.transferTo(dest);
-        imageUrl = fileName;
-      } catch (IllegalStateException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    return imageUrl;
 
   }
 

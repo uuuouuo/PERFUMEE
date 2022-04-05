@@ -63,13 +63,11 @@ public class UserDto {
 
     private String password;
     private String email;
-    private String image;
     private String nickname;
 
-    public UpdateRes(UpdateReq request, String image) {
+    public UpdateRes(UpdateReq request) {
       this.password = request.getPassword();
       this.email = request.getEmail();
-      this.image = image;
       this.nickname = request.nickname;
     }
 
