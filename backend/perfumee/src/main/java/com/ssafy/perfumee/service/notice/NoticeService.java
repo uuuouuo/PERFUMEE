@@ -52,7 +52,7 @@ public class NoticeService {
     public UpdateRes updateNotice(Integer noticeNo, UpdateReq request){
         Optional<Notice> noticeOptional = noticeRepository.findByNo(noticeNo);
         Notice prevNotice = validateExist.findNotice(noticeOptional);
-        prevNotice.updateNotice(request.getSubject(), request.getSubject());
+        prevNotice.updateNotice(request.getSubject(), request.getContent());
         noticeRepository.save(prevNotice);
         UpdateRes response = new UpdateRes(prevNotice.getSubject(), prevNotice.getContent());
         return response;
