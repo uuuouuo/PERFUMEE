@@ -1,14 +1,13 @@
 package com.ssafy.perfumee.model.entity.perfume;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -20,7 +19,7 @@ public class Perfume {
   @Column(name = "PERFUME_NO")
   private Integer no;
 
-  @Column(nullable = false, length = 45)
+  @Column(nullable = false, length = 100)
   private String name;
 
   @Column(nullable = false, length = 45)

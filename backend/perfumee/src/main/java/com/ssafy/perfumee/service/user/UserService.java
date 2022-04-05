@@ -10,8 +10,6 @@ import com.ssafy.perfumee.model.entity.perfume.Note;
 import com.ssafy.perfumee.model.entity.user.User;
 import com.ssafy.perfumee.repository.perfume.NoteRepository;
 import com.ssafy.perfumee.repository.user.UserRepository;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -32,15 +29,15 @@ public class UserService {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
-  public void signUp(SignUpReq request, MultipartFile image) {
+  public void signUp(SignUpReq request) {
 
     String rawPassword = request.getPassword();
     String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
-    String imageUrl = getImage(image, request.getId());
+//    String imageUrl = getImage(image, request.getId());
 
     User user = new User();
-    user.createUser(request, encPassword, imageUrl);
+    user.createUser(request, encPassword);
 
     userRepository.save(user);
 
@@ -81,14 +78,19 @@ public class UserService {
   }
 
   @Transactional
-  public UpdateRes editUser(String id, UpdateReq request, MultipartFile image) {
+  public UpdateRes editUser(String id, UpdateReq request) {
 
     User user = getUser(id);
 
-    String imageUrl = getImage(image, id);
-    user.changeImage(imageUrl);
+    String rawPassword = request.getPassword();
+    String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
-    UpdateRes response = new UpdateRes(request, imageUrl);
+//    String imageUrl = getImage(image, id);
+//    user.changeImage(imageUrl);
+
+    user.updateUser(request, encPassword);
+
+    UpdateRes response = new UpdateRes(request);
 
     return response;
 
@@ -128,28 +130,28 @@ public class UserService {
 
   }
 
-  public String getImage(MultipartFile image, String id) {
-
-    String imageUrl = "";
-    if(image.isEmpty()){
-      imageUrl = "C://images/profile/basic_profile.png";
-    }
-    else {
-      String fileName = "C://images/profile/" + id + ".png";
-
-      File dest = new File(fileName);
-      try {
-        image.transferTo(dest);
-        imageUrl = fileName;
-      } catch (IllegalStateException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    return imageUrl;
-
-  }
+//  public String getImage(MultipartFile image, String id) {
+//
+//    String imageUrl = "";
+//    if(image.isEmpty()){
+//      imageUrl = "C://images/profile/basic_profile.png";
+//    }
+//    else {
+//      String fileName = "C://images/profile/" + id + ".png";
+//
+//      File dest = new File(fileName);
+//      try {
+//        image.transferTo(dest);
+//        imageUrl = fileName;
+//      } catch (IllegalStateException e) {
+//        e.printStackTrace();
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
+//    }
+//
+//    return imageUrl;
+//
+//  }
 
 }
