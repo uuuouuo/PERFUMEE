@@ -31,11 +31,11 @@ public class UserController {
   private final UserService userService;
 
 
-  @PostMapping(value = "/signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-  public void  createUser(@RequestPart(value = "request") SignUpReq signUpReq,
-      @RequestPart(value = "image") MultipartFile image) {
+  @PostMapping(value = "/signup")
+  public void  createUser(@RequestBody SignUpReq signUpReq)
+  {
 
-    userService.signUp(signUpReq, image);
+    userService.signUp(signUpReq);
 
   }
 
@@ -47,7 +47,7 @@ public class UserController {
     response.addHeader(JwtProperties.HEADER_STRING,
         JwtProperties.TOKEN_PREFIX + jwtToken);
 
-    return ResponseEntity.ok().body("JWT 생성 완료");
+    return ResponseEntity.ok().body(jwtToken);
 
   }
 
@@ -71,13 +71,12 @@ public class UserController {
 
   }
 
-  @PutMapping(value = "/{userId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PutMapping(value = "/{userId}")
   public ResponseEntity<UpdateRes> updateUser (
       @PathVariable("userId") String id,
-      @RequestPart(value="request") UpdateReq request,
-      @RequestPart(value="image") MultipartFile image) {
+      @RequestBody UpdateReq request) {
 
-    UpdateRes response = userService.editUser(id, request, image);
+    UpdateRes response = userService.editUser(id, request);
     return new ResponseEntity<>(response, HttpStatus.OK);
 
   }
