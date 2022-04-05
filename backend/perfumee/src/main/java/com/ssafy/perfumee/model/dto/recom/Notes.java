@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class Notes {
   String userId;
-  ArrayList<String> notes_names;
+  ArrayList<Integer> noteIds;
 
 }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -168,10 +169,9 @@ public class UserService {
 
     User user = userRepository.findById(notes.getUserId()).get();
 
-    for(String note : notes.getNotes_names()) {
+    for(int note : notes.getNoteIds()) {
       Taste taste = new Taste();
-      Note tasteNote = noteRepository.findByName(note).get();
-      taste.createTaste(user,tasteNote);
+      Note tasteNote = noteRepository.findById(note).get();
       taste.createTaste(user,tasteNote);
       tasteRepository.save(taste);
     }
@@ -189,10 +189,7 @@ public class UserService {
       notesName.add(note);
     }
 
-    Notes notes = new Notes();
-    notes.setNotes_names(notesName);
-
-    Recom perfumes = recomPerfumes(notes);
+    Recom perfumes = recomPerfumes(notesName);
 
     List<Perfume> recomPerfume = new ArrayList<>();
     for(int perfumeId : perfumes.getPerfumes()) {
@@ -203,8 +200,12 @@ public class UserService {
     return recomPerfume;
   }
 
-  public Recom recomPerfumes(Notes notes){
-    ArrayList<String> notes_name = notes.getNotes_names();
+  public Recom recomPerfumes(ArrayList<String> notes_names){
+
+//    ArrayList<Integer> notes_name = notes.getNoteIds();
+
+    NotesDto notes = new NotesDto();
+    notes.setNotes_names(notes_names);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
@@ -224,4 +225,9 @@ public class UserService {
     return perfumes;
   }
 
+  @Data
+  public static class NotesDto{
+    ArrayList<String> notes_names;
+
+  }
 }

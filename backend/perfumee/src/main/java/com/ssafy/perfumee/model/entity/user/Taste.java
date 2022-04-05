@@ -34,5 +34,8 @@ public class Taste {
     public String getNoteName(){
         return note.getName();
     }
+    public int getNoteId(){
+        return note.getNo();
+    }
 }
 

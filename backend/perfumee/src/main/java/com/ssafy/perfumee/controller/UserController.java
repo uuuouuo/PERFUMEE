@@ -112,9 +112,14 @@ public class UserController {
   @PostMapping("/recomm")
   public ResponseEntity<String> findNotes (@RequestBody Notes notes) {
 
-   userService.setRecomm(notes);
+    System.out.println("asfasdfdsf");
+    System.out.println(notes.getUserId());
+    for (int x : notes.getNoteIds()){
+      System.out.println(x);
+    }
+    userService.setRecomm(notes);
 
-    return ResponseEntity.ok().body("회원 탈퇴 완료");
+    return ResponseEntity.ok().body("관심 향 설정 완료");
   }
 
   @PostMapping("/recommper")
