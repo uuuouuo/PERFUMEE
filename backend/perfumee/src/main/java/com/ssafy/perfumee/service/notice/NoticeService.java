@@ -27,7 +27,7 @@ public class NoticeService {
     public NoticeRes getDetail(Integer noticeNo){
         Optional<Notice> noticeOptional = noticeRepository.findByNo(noticeNo);
         Notice notice = validateExist.findNotice(noticeOptional);
-        NoticeRes response = new NoticeRes(notice.getSubject(), notice.getContent());
+        NoticeRes response = new NoticeRes(notice.getNo(), notice.getSubject(), notice.getContent());
         return response;
     }
 
@@ -36,24 +36,23 @@ public class NoticeService {
         Page<Notice> noticePage = new PageImpl<>(notices);
         Page<NoticeRes> noticeResPage = noticePage.map(
                 notice -> new NoticeRes(
-                        notice.getSubject(), notice.getContent()
+                        notice.getNo(), notice.getSubject(), notice.getContent()
                 )
         );
-
         return noticeResPage;
     }
 
     public NoticeRes writeNotice(NoticeReq request){
-        Notice notice = new Notice(request.getSubject(), request.getSubject());
+        Notice notice = new Notice(request.getSubject(), request.getContent());
         noticeRepository.save(notice);
-        NoticeRes response = new NoticeRes(notice.getSubject(), notice.getContent());
+        NoticeRes response = new NoticeRes(notice.getNo(), notice.getSubject(), notice.getContent());
         return response;
     }
 
     public UpdateRes updateNotice(Integer noticeNo, UpdateReq request){
         Optional<Notice> noticeOptional = noticeRepository.findByNo(noticeNo);
         Notice prevNotice = validateExist.findNotice(noticeOptional);
-        prevNotice.updateNotice(request.getSubject(), request.getSubject());
+        prevNotice.updateNotice(request.getSubject(), request.getContent());
         noticeRepository.save(prevNotice);
         UpdateRes response = new UpdateRes(prevNotice.getSubject(), prevNotice.getContent());
         return response;
