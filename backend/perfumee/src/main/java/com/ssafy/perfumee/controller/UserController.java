@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,7 +62,7 @@ public class UserController {
 
   }
 
-  @GetMapping(value = "/{userId}")
+  @GetMapping("/{userId}")
   public ResponseEntity<FindRes> findUser (@PathVariable("userId") String id) {
 
     FindRes response = userService.searchUser(id);
@@ -71,7 +70,7 @@ public class UserController {
 
   }
 
-  @PutMapping(value = "/{userId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PutMapping("/{userId}")
   public ResponseEntity<UpdateRes> updateUser (
       @PathVariable("userId") String id, @RequestBody UpdateReq request) {
 
@@ -99,12 +98,9 @@ public class UserController {
   @PostMapping("/recomm")
   public ResponseEntity<String> findNotes (@RequestBody Notes notes) {
 
-    for (int x : notes.getNoteIds()){
-      System.out.println(x);
-    }
     userService.setRecomm(notes);
-
     return ResponseEntity.ok().body("관심 향 설정 완료");
+
   }
 
   @PostMapping("/recommper")
@@ -114,6 +110,7 @@ public class UserController {
     List<Perfume> perfumes = userService.getRecomm(id);
 
     return new ResponseEntity<>(perfumes,HttpStatus.OK);
+
   }
 
   @Data
