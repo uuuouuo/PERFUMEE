@@ -1,22 +1,34 @@
 package com.ssafy.perfumee.service.user;
 
 import com.ssafy.perfumee.config.jwt.JwtProvider;
+import com.ssafy.perfumee.model.dto.recom.Notes;
+import com.ssafy.perfumee.model.dto.recom.Recom;
 import com.ssafy.perfumee.model.dto.user.UserDto.FindRes;
 import com.ssafy.perfumee.model.dto.user.UserDto.LoginReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateRes;
 import com.ssafy.perfumee.model.entity.perfume.Note;
+import com.ssafy.perfumee.model.entity.perfume.Perfume;
+import com.ssafy.perfumee.model.entity.user.Taste;
 import com.ssafy.perfumee.model.entity.user.User;
 import com.ssafy.perfumee.repository.perfume.NoteRepository;
+import com.ssafy.perfumee.repository.perfume.PerfumeRepository;
+import com.ssafy.perfumee.repository.taste.TasteRepository;
 import com.ssafy.perfumee.repository.user.UserRepository;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +37,8 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final NoteRepository noteRepository;
+  private final PerfumeRepository perfumeRepository;
+  private final TasteRepository tasteRepository;
   private final JwtProvider jwtProvider;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -154,4 +168,70 @@ public class UserService {
 //
 //  }
 
+  @Transactional
+  public void setRecomm(Notes notes){
+
+    User user = userRepository.findById(notes.getUserId()).get();
+
+    for(int note : notes.getNoteIds()) {
+      Taste taste = new Taste();
+      Note tasteNote = noteRepository.findById(note).get();
+      taste.createTaste(user,tasteNote);
+      tasteRepository.save(taste);
+    }
+  }
+
+  public List<Perfume> getRecomm(String userId){
+
+    User user = userRepository.findById(userId).get();
+
+    ArrayList<String> notesName = new ArrayList<>();
+    List<Taste> personalTaste = tasteRepository.findAllByUser(user);
+
+    for(Taste taste : personalTaste){
+      String note = taste.getNoteName();
+      notesName.add(note);
+    }
+
+    Recom perfumes = recomPerfumes(notesName);
+
+    List<Perfume> recomPerfume = new ArrayList<>();
+    for(int perfumeId : perfumes.getPerfumes()) {
+      Perfume perfume = perfumeRepository.findByNo(perfumeId).get();
+      recomPerfume.add(perfume);
+    }
+
+    return recomPerfume;
+  }
+
+  public Recom recomPerfumes(ArrayList<String> notes_names){
+
+//    ArrayList<Integer> notes_name = notes.getNoteIds();
+
+    NotesDto notes = new NotesDto();
+    notes.setNotes_names(notes_names);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    WebClient webClient = WebClient.builder()
+        .baseUrl("localhost:8080")
+        .build();
+
+    Recom perfumes = webClient.post()
+        .uri("localhost:8000/perfume/recomm")
+        .accept(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(notes))
+        .retrieve()
+        //     아래의 onStatus는 error handling
+        .bodyToMono(Recom.class) // KAKAO의 유저 정보를 넣을 Dto 클래스
+        .block();
+
+    return perfumes;
+  }
+
+  @Data
+  public static class NotesDto{
+    ArrayList<String> notes_names;
+
+  }
 }

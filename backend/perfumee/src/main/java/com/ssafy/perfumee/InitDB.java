@@ -221,66 +221,6 @@
 //
 //    }
 //
-//    //      BufferedReader file = new BufferedReader(
-////          new FileReader("C:\\Users\\somyu\\Desktop\\특화PRJ_자료\\"
-////              + "perfume_data_reduction.cell"));
-////    String line = "";
-//
-////    try {
-//
-////      while ((line = file.readLine()) != null) {
-////        List<String> aLine = new ArrayList<>();
-////        String[] arr = line.split(",");
-////
-////        System.out.println("============");
-////        System.out.println(arr[3]);
-////        System.out.println("============");
-////
-////        BigDecimal rating = new BigDecimal(arr[3]);
-////        Perfume perfume = new Perfume(arr[1], arr[2], rating, arr[4], arr[8]);
-////        perfumeRepository.save(perfume);
-////
-////        for(int i = 5; i < 8; i++) {
-////          arr[i] = arr[i].replace(" | ","|");
-////          String[] str = arr[i].split("\\|");
-////
-////          for (String s : str) {
-////            if(s.isEmpty()) continue;
-////            Optional<Note> note = noteRepository.findByName(s.trim().toLowerCase());
-////
-////            String type = "";
-////            if(i == 5) {
-////              type = "top";
-////              top.put(note.get(), perfume);
-////            } else if(i == 6) {
-////              type = "middle";
-////              middle.put(note.get(), perfume);
-////            } else if(i == 7) {
-////              type = "base";
-////              base.put(note.get(), perfume);
-////            }
-////          }
-////
-////        }
-////      }
-//
-////      Contain contain = new Contain(perfume, type, note.get());
-////      containRepository.save(contain);
-//
-////    } catch (FileNotFoundException e) {
-////      e.printStackTrace();
-////    } catch (IOException e) {
-////      e.printStackTrace();
-////    } finally {
-////      try {
-////        if (file != null) {
-////          file.close();
-////        }
-////      } catch(IOException e) {
-////        e.printStackTrace();
-////      }
-////    }
-//
 //  }
 //
 //}
