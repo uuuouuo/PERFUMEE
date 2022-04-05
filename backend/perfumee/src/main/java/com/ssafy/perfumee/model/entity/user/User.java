@@ -1,6 +1,7 @@
 package com.ssafy.perfumee.model.entity.user;
 
 import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
+import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,9 @@ public class User {
   @Column(nullable = false, length = 45)
   private String email;
 
+//  @Column(name = "PROFILE_IMAGE", nullable = false, length = 100)
+//  private String image;
+
   @Column(nullable = false, length = 45)
   private String gender;
 
@@ -43,11 +47,21 @@ public class User {
     this.password = password;
     this.nickname = request.getNickname();
     this.email = request.getEmail();
+//    this.image = image;
     this.gender = request.getGender();
     this.role = "user";
     this.isExist = true;
   }
 
+  public void updateUser(UpdateReq request, String password) {
+    this.password = password;
+    this.nickname = request.getNickname();
+    this.email = request.getEmail();
+  }
+
+//  public void changeImage(String image){
+//    this.image = image;
+//  }
 
   public void deleteUser(){
     this.isExist = false;

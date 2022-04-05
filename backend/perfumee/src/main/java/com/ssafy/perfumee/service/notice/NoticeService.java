@@ -1,21 +1,19 @@
 package com.ssafy.perfumee.service.notice;
 
-import com.ssafy.perfumee.model.dto.notice.NoticeDto.UpdateReq;
-import com.ssafy.perfumee.model.dto.notice.NoticeDto.UpdateRes;
 import com.ssafy.perfumee.model.dto.notice.NoticeDto.NoticeReq;
 import com.ssafy.perfumee.model.dto.notice.NoticeDto.NoticeRes;
+import com.ssafy.perfumee.model.dto.notice.NoticeDto.UpdateReq;
+import com.ssafy.perfumee.model.dto.notice.NoticeDto.UpdateRes;
 import com.ssafy.perfumee.model.entity.notice.Notice;
 import com.ssafy.perfumee.repository.notice.NoticeRepository;
 import com.ssafy.perfumee.service.validation.ValidateExist;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
