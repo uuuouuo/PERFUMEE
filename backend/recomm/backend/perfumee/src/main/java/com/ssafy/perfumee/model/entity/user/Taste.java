@@ -27,12 +27,5 @@ public class Taste {
     @JoinColumn(name = "NOTE_NO")
     private Note note;
 
-    public void createTaste(User user, Note note){
-        this.user = user;
-        this.note = note;
-    }
-    public String getNoteName(){
-        return note.getName();
-    }
 }
 

@@ -1,19 +1,15 @@
 package com.ssafy.perfumee.controller;
 
 import com.ssafy.perfumee.config.jwt.JwtProperties;
-import com.ssafy.perfumee.model.dto.recom.Notes;
-import com.ssafy.perfumee.model.dto.recom.Recom;
 import com.ssafy.perfumee.model.dto.user.UserDto.FindRes;
 import com.ssafy.perfumee.model.dto.user.UserDto.LoginReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.UpdateRes;
-import com.ssafy.perfumee.model.entity.perfume.Perfume;
 import com.ssafy.perfumee.service.user.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -40,6 +36,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class UserController {
 
   private final UserService userService;
+
 
   @PostMapping(value = "/signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   public void  createUser(@RequestPart(value = "request") SignUpReq signUpReq,
@@ -110,29 +107,28 @@ public class UserController {
 
 //     관심향 받아와서 저장.
   @PostMapping("/recomm")
-  public ResponseEntity<String> findNotes (@RequestBody Notes notes) {
+  public ResponseEntity<ArrayList<String>> findNotes (@RequestBody List<String> notes) {
 
-   userService.setRecomm(notes);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    JSONObject jsonData = new JSONObject();
+    jsonData.put("첫번째", notes);
+    HttpEntity<JSONObject> request = new HttpEntity<>(jsonData, headers);
 
-    return ResponseEntity.ok().body("회원 탈퇴 완료");
-  }
+    WebClient webClient = WebClient.builder()
+        .baseUrl("localhost:8080")
+        .build();
 
-  @PostMapping("/recommper")
-  public ResponseEntity<List<Perfume>> findperfumes (@RequestBody RecomUserId userId) {
-
-    System.out.println("!23123assdf");
-
-    String id = userId.getUserId();
-    System.out.println(id);
-    List<Perfume> perfumes = userService.getRecomm(id);
+    ArrayList<String> perfumes = webClient.post()
+        .uri("localhost:8000/perfume/recomm")
+        .accept(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .retrieve()
+        //     아래의 onStatus는 error handling
+        .bodyToMono(ArrayList.class) // KAKAO의 유저 정보를 넣을 Dto 클래스
+        .block();
 
     return new ResponseEntity<>(perfumes,HttpStatus.OK);
   }
 
-  @Data
-  public static class RecomUserId{
-
-    String userId;
-
-  }
 }
