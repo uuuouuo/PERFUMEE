@@ -1,6 +1,7 @@
 package com.ssafy.perfumee.controller;
 
 
+import com.ssafy.perfumee.model.dto.review.ReviewDto.checkReviewReq;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.ReviewReq;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.ReviewRes;
 import com.ssafy.perfumee.model.dto.review.ReviewDto.UpdateReviewRes;
@@ -21,7 +22,7 @@ public class ReviewController {
 
     @PostMapping("")
     public ResponseEntity<ReviewRes> createReview(
-            @RequestPart(value="request") ReviewReq request) {
+            @RequestBody ReviewReq request) {
 
         ReviewRes response = reviewService.writeReview(request);
 
@@ -35,10 +36,23 @@ public class ReviewController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/check/{reviewNo}")
+    public ResponseEntity<String> updateCheck(
+            @PathVariable("reviewNo") Integer reviewNo,
+            @RequestBody checkReviewReq request) {
+
+        boolean valid = reviewService.check(reviewNo, request);
+        if(valid)
+            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
+    }
+
+
     @PutMapping("/{reviewNo}")
     public ResponseEntity<UpdateReviewRes> updateReview(
             @PathVariable("reviewNo") Integer reviewNo,
-            @RequestPart(value="request") UpdateReviewReq request) {
+            @RequestBody UpdateReviewReq request) {
 
         UpdateReviewRes response = reviewService.updateReview(reviewNo, request);
 

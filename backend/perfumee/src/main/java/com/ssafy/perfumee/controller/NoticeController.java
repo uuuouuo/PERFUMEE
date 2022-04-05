@@ -23,7 +23,7 @@ public class NoticeController {
 
     @PostMapping("")
     public ResponseEntity<NoticeRes> createNotice(
-            @RequestPart(value="request") NoticeReq request) {
+            @RequestBody NoticeReq request) {
 
         NoticeRes response = noticeService.writeNotice(request);
 
@@ -47,7 +47,7 @@ public class NoticeController {
     @PutMapping("/{noticeNo}")
     public ResponseEntity<UpdateRes> updateNotice(
             @PathVariable("noticeNo") Integer noticeNo,
-            @RequestPart(value="request") UpdateReq request){
+            @RequestBody UpdateReq request){
 
         UpdateRes response = noticeService.updateNotice(noticeNo, request);
 

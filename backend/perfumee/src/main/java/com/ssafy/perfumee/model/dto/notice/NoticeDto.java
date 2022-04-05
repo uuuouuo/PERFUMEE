@@ -21,10 +21,12 @@ public class NoticeDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class NoticeRes {
+        private Integer noticeNo;
         private String subject;
         private String content;
 
-        public NoticeRes(String subject, String content){
+        public NoticeRes(Integer noticeNo, String subject, String content){
+            this.noticeNo = noticeNo;
             this.subject = subject;
             this.content = content;
         }

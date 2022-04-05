@@ -46,7 +46,6 @@ public class UserService {
 
     String rawPassword = request.getPassword();
     String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-
 //    String imageUrl = getImage(image, request.getId());
 
     User user = new User();
@@ -94,7 +93,6 @@ public class UserService {
   public UpdateRes editUser(String id, UpdateReq request) {
 
     User user = getUser(id);
-
     String rawPassword = request.getPassword();
     String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
@@ -233,4 +231,5 @@ public class UserService {
     ArrayList<String> notes_names;
 
   }
+
 }
