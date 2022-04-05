@@ -16,7 +16,6 @@ import com.ssafy.perfumee.repository.perfume.NoteRepository;
 import com.ssafy.perfumee.repository.perfume.PerfumeRepository;
 import com.ssafy.perfumee.repository.taste.TasteRepository;
 import com.ssafy.perfumee.repository.user.UserRepository;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

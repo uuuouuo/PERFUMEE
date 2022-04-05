@@ -30,8 +30,8 @@ public class User {
   @Column(nullable = false, length = 45)
   private String email;
 
-  @Column(name = "PROFILE_IMAGE", nullable = false, length = 100)
-  private String image;
+//  @Column(name = "PROFILE_IMAGE", nullable = false, length = 100)
+//  private String image;
 
   @Column(nullable = false, length = 45)
   private String gender;

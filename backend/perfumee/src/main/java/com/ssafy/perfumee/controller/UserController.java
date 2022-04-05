@@ -2,7 +2,6 @@ package com.ssafy.perfumee.controller;
 
 import com.ssafy.perfumee.config.jwt.JwtProperties;
 import com.ssafy.perfumee.model.dto.recom.Notes;
-import com.ssafy.perfumee.model.dto.recom.Recom;
 import com.ssafy.perfumee.model.dto.user.UserDto.FindRes;
 import com.ssafy.perfumee.model.dto.user.UserDto.LoginReq;
 import com.ssafy.perfumee.model.dto.user.UserDto.SignUpReq;
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -102,8 +99,6 @@ public class UserController {
   @PostMapping("/recomm")
   public ResponseEntity<String> findNotes (@RequestBody Notes notes) {
 
-    System.out.println("asfasdfdsf");
-    System.out.println(notes.getUserId());
     for (int x : notes.getNoteIds()){
       System.out.println(x);
     }
@@ -115,10 +110,7 @@ public class UserController {
   @PostMapping("/recommper")
   public ResponseEntity<List<Perfume>> findperfumes (@RequestBody RecomUserId userId) {
 
-    System.out.println("!23123assdf");
-
     String id = userId.getUserId();
-    System.out.println(id);
     List<Perfume> perfumes = userService.getRecomm(id);
 
     return new ResponseEntity<>(perfumes,HttpStatus.OK);
