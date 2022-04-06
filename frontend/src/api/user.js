@@ -4,8 +4,8 @@ const api = apiInstance();
 
 async function login(user, success, fail) {
   const request = {
-    id: user["user_id"],
-    password: user["user_pw"],
+    id: user["id"],
+    password: user["password"],
   };
   await api
     .post(`/user/login`, JSON.stringify(request))

@@ -8,13 +8,7 @@
     />
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          style="margin: 0px 10px 0px 0px"
-        >
+        <v-btn dark v-bind="attrs" v-on="on" style="margin: 0px 10px 0px 0px">
           회원정보 수정
         </v-btn>
       </template>
@@ -46,10 +40,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="checkValue"> 확인 </v-btn>
-          <v-btn color="primary" text @click="dialog = false"> 취소 </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-btn color="red lighten-2" @click="deleteConfirm">회원탈퇴</v-btn>
   </div>
 </template>
 
@@ -62,8 +56,8 @@ const userStore = "userStore";
 export default {
   data() {
     return {
+      dialog: "",
       user: {
-        profileImage: "",
         nickame: "",
         pass: "",
         passcheck: "",
@@ -98,8 +92,7 @@ export default {
         method: "delete",
         url: `/user/${this.userInfo.id}`,
       })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.SET_IS_LOGIN(false);
           this.SET_USER_INFO(null);
           this.$router.push({
@@ -155,39 +148,17 @@ export default {
       }
     },
     userInfoUpdate() {
-      console.log(this.user.profileImage);
-      let obj = {};
-      if (this.user.user_pw) {
-        obj = {
-          password: this.user.pass,
-          id: this.userInfo.id,
-          nickname: this.user.nickname,
-          email: this.user.email,
-          gender: this.user.gender,
-        };
-      } else {
-        obj = {
-          id: this.userInfo.id,
-          nickame: this.user.nickame,
-          email: this.user.email,
-          gender: this.user.gender,
-        };
-      }
-      http({
-        method: "put",
-        url: `/user/${this.userInfo.id}`,
-        data: obj,
-      })
-        .then((response) => {
-          console.log(response);
+      http
+        .put(`/user/${this.userInfo.id}`, {
+          password: this.pass,
+          nickname: this.nickame,
+          email: this.email,
+        })
+        .then(() => {
           Swal.fire({
             icon: "success",
             text: "회원정보 수정이 완료되었습니다.",
           });
-          let token = sessionStorage.getItem("access-token");
-          this.getUserInfo(token);
-          this.user.pass = "";
-          this.user.passcheck = "";
           this.modalCheck = false;
         })
         .catch((err) => {

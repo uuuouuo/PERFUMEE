@@ -8,10 +8,12 @@ import NoticeView from "../components/notice/NoticeView.vue";
 import NoticeModify from "../components/notice/NoticeModify.vue";
 import NoticeWrite from "../components/notice/NoticeWrite.vue";
 import NoticeDelete from "../components/notice/NoticeDelete.vue";
-import PerfumePage from "../components/perfume/PerfumePage.vue";
+import PerfumePage from "../views/PerfumePage.vue";
+import ItemPage from "../components/perfume/ItemPage.vue";
+import PerfumeDetail from "../components/perfume/PerfumeDetail.vue";
 import ProfilePage from "../components/user/ProfilePage.vue";
 import ScentPage from "../components/user/ScentPage.vue";
-import PerfumeDetail from "../components/perfume/PerfumeDetail.vue";
+// import PerfumeDetail from "../components/perfume/PerfumeDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,24 @@ const routes = [
     component: SignupPage,
   },
   {
+    path: "/perfume",
+    name: "PerfumePage",
+    component: PerfumePage,
+    redirect: "/detail",
+    children: [
+      {
+        path: "/detail",
+        name: "ItemPage",
+        component: ItemPage,
+      },
+      {
+        path: "/detail/:no",
+        name: "PerfumeDetail",
+        component: PerfumeDetail,
+      },
+    ],
+  },
+  {
     path: "/notice",
     name: "NoticePage",
     component: NoticePage,
@@ -38,12 +58,12 @@ const routes = [
         component: NoticeList,
       },
       {
-        path: "/view/:no",
+        path: "/view/:noticeNo",
         name: "NoticeView",
         component: NoticeView,
       },
       {
-        path: "/modify/:no",
+        path: "/modify/:noticeNo",
         name: "NoticeModify",
         component: NoticeModify,
       },
@@ -53,22 +73,22 @@ const routes = [
         component: NoticeWrite,
       },
       {
-        path: "/delete/:no",
+        path: "/delete/:noticeNo",
         name: "NoticeDelete",
         component: NoticeDelete,
       },
     ],
   },
-  {
-    path: "/perfume",
-    name: "perfume",
-    component: PerfumePage,
-  },
-  {
-    path: "/perfume/detail/:perfumeId",
-    name: "perfumeDetail",
-    component: PerfumeDetail,
-  },
+  // {
+  //   path: "/perfume",
+  //   name: "perfume",
+  //   component: PerfumePage,
+  // },
+  // {
+  //   path: "/perfume/detail/:perfumeId",
+  //   name: "perfumeDetail",
+  //   component: PerfumeDetail,
+  // },
   {
     path: "/profile",
     name: "profile",

@@ -7,7 +7,7 @@
     <div v-if="notices.length">
       <table id="notice-list">
         <colgroup>
-          <col style="width: 5%" />
+          <col style="width: 15%" />
           <col style="width: 45%" />
           <col style="width: 25%" />
           <col style="width: 25%" />
@@ -16,13 +16,12 @@
           <tr>
             <th>글번호</th>
             <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
+            <th>글 작성자</th>
           </tr>
         </thead>
         <tbody>
           <notice-list-row
-            v-for="(notice, index) in notices"
+            v-for="(notice, index) in notices.reverse()"
             :key="index"
             v-bind="notice"
           ></notice-list-row>
@@ -48,8 +47,8 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:9999/vue/api/board").then(({ data }) => {
-      this.notices = data;
+    axios.get("http://j6c101.p.ssafy.io:8081/notice").then(({ data }) => {
+      this.notices = data.content;
     });
   },
   methods: {
