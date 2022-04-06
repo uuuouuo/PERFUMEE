@@ -3,7 +3,10 @@
     선호하는 향
     <v-select
       v-model="scent"
-      :items="options"
+      v-bind:items="options"
+      item-value="note_id"
+      item-text="name_kor"
+      multiple
       label="선호하는 향"
       dense
       outlined
@@ -15,105 +18,133 @@
       outlined
       style="margin: 0px 10px 0px 0px"
       @click="checkValue"
-      >회원가입</v-btn
+      >선호하는 향 설정</v-btn
     >
   </div>
 </template>
 
 <script>
+import http from "@/config/http-common.js";
+import Swal from "sweetalert2";
+
 export default {
   data() {
     return {
+      scent: "",
+      userId: sessionStorage.getItem("id"),
       options: [
-        { value: "0", text: "알데하이드" },
-        { value: "1", text: "용연향" },
-        { value: "2", text: "사과" },
-        { value: "3", text: "바질" },
-        { value: "4", text: "벤조인" },
-        { value: "5", text: "버가못" },
-        { value: "6", text: "후추" },
-        { value: "7", text: "블랙커런트" },
-        { value: "8", text: "불가리안 로즈" },
-        { value: "9", text: "카라멜" },
-        { value: "10", text: "카다멈" },
-        { value: "11", text: "카네이션" },
-        { value: "12", text: "시더" },
-        { value: "13", text: "시나몬" },
-        { value: "14", text: "시트러스" },
-        { value: "15", text: "시벳" },
-        { value: "16", text: "클라리 세이지" },
-        { value: "17", text: "클로브" },
-        { value: "18", text: "코코넛" },
-        { value: "19", text: "고수" },
-        { value: "20", text: "시클라멘" },
-        { value: "21", text: "솔잎" },
-        { value: "22", text: "엘레미" },
-        { value: "23", text: "플로럴" },
-        { value: "24", text: "프랑킨센스" },
-        { value: "25", text: "프리지아" },
-        { value: "26", text: "제라늄" },
-        { value: "27", text: "진저" },
-        { value: "28", text: "자몽" },
-        { value: "29", text: "바닐라 초콜릿" },
-        { value: "30", text: "꿀" },
-        { value: "31", text: "히야신스" },
-        { value: "32", text: "아이리스" },
-        { value: "33", text: "자스민" },
-        { value: "34", text: "자스민 삼박" },
-        { value: "35", text: "쥬니퍼베리" },
-        { value: "36", text: "랍다넘" },
-        { value: "37", text: "라벤더" },
-        { value: "38", text: "가죽" },
-        { value: "39", text: "레몬" },
-        { value: "40", text: "백합" },
-        { value: "41", text: "은방울꽃" },
-        { value: "42", text: "라임" },
-        { value: "43", text: "매그놀리아" },
-        { value: "44", text: "만다린" },
-        { value: "45", text: "미모사" },
-        { value: "46", text: "민트" },
-        { value: "47", text: "모스" },
-        { value: "48", text: "머스크" },
-        { value: "49", text: "몰약" },
-        { value: "50", text: "네롤리" },
-        { value: "51", text: "넛맥" },
-        { value: "52", text: "오크모스" },
-        { value: "53", text: "오렌지" },
-        { value: "54", text: "난초" },
-        { value: "55", text: "북꽃" },
-        { value: "56", text: "오스만투스" },
-        { value: "57", text: "침향" },
-        { value: "58", text: "파출리" },
-        { value: "59", text: "복숭아" },
-        { value: "60", text: "배" },
-        { value: "61", text: "모란" },
-        { value: "62", text: "감귤" },
-        { value: "63", text: "파인애플" },
-        { value: "64", text: "핑크페퍼" },
-        { value: "65", text: "자두" },
-        { value: "66", text: "라즈베리" },
-        { value: "67", text: "장미" },
-        { value: "68", text: "로즈마리" },
-        { value: "69", text: "샤프론" },
-        { value: "70", text: "허브" },
-        { value: "71", text: "샌달우드" },
-        { value: "72", text: "매운향" },
-        { value: "73", text: "귤" },
-        { value: "74", text: "담배" },
-        { value: "75", text: "통카" },
-        { value: "76", text: "튜베로즈" },
-        { value: "77", text: "바닐라" },
-        { value: "78", text: "베티버" },
-        { value: "79", text: "바이올렛" },
-        { value: "80", text: "바이올렛 리프" },
-        { value: "81", text: "화이트 머스크" },
-        { value: "82", text: "우디" },
-        { value: "83", text: "일랑" },
+        { note_id: "1", name_kor: "알데하이드" },
+        { note_id: "2", name_kor: "용연향" },
+        { note_id: "3", name_kor: "사과" },
+        { note_id: "4", name_kor: "바질" },
+        { note_id: "5", name_kor: "벤조인" },
+        { note_id: "6", name_kor: "버가못" },
+        { note_id: "7", name_kor: "후추" },
+        { note_id: "8", name_kor: "블랙커런트" },
+        { note_id: "9", name_kor: "불가리안 로즈" },
+        { note_id: "10", name_kor: "카라멜" },
+        { note_id: "11", name_kor: "카다멈" },
+        { note_id: "12", name_kor: "카네이션" },
+        { note_id: "13", name_kor: "시더" },
+        { note_id: "14", name_kor: "시나몬" },
+        { note_id: "15", name_kor: "시트러스" },
+        { note_id: "16", name_kor: "시벳" },
+        { note_id: "17", name_kor: "클라리 세이지" },
+        { note_id: "18", name_kor: "클로브" },
+        { note_id: "19", name_kor: "코코넛" },
+        { note_id: "20", name_kor: "고수" },
+        { note_id: "21", name_kor: "시클라멘" },
+        { note_id: "22", name_kor: "솔잎" },
+        { note_id: "23", name_kor: "엘레미" },
+        { note_id: "24", name_kor: "플로럴" },
+        { note_id: "25", name_kor: "프랑킨센스" },
+        { note_id: "26", name_kor: "프리지아" },
+        { note_id: "27", name_kor: "제라늄" },
+        { note_id: "28", name_kor: "진저" },
+        { note_id: "29", name_kor: "자몽" },
+        { note_id: "30", name_kor: "바닐라 초콜릿" },
+        { note_id: "31", name_kor: "꿀" },
+        { note_id: "32", name_kor: "히야신스" },
+        { note_id: "33", name_kor: "아이리스" },
+        { note_id: "34", name_kor: "자스민" },
+        { note_id: "35", name_kor: "자스민 삼박" },
+        { note_id: "36", name_kor: "쥬니퍼베리" },
+        { note_id: "37", name_kor: "랍다넘" },
+        { note_id: "38", name_kor: "라벤더" },
+        { note_id: "39", name_kor: "가죽" },
+        { note_id: "40", name_kor: "레몬" },
+        { note_id: "41", name_kor: "백합" },
+        { note_id: "42", name_kor: "은방울꽃" },
+        { note_id: "43", name_kor: "라임" },
+        { note_id: "44", name_kor: "매그놀리아" },
+        { note_id: "45", name_kor: "만다린" },
+        { note_id: "46", name_kor: "미모사" },
+        { note_id: "47", name_kor: "민트" },
+        { note_id: "48", name_kor: "모스" },
+        { note_id: "49", name_kor: "머스크" },
+        { note_id: "50", name_kor: "몰약" },
+        { note_id: "51", name_kor: "네롤리" },
+        { note_id: "52", name_kor: "넛맥" },
+        { note_id: "53", name_kor: "오크모스" },
+        { note_id: "54", name_kor: "오렌지" },
+        { note_id: "55", name_kor: "난초" },
+        { note_id: "56", name_kor: "북꽃" },
+        { note_id: "57", name_kor: "오스만투스" },
+        { note_id: "58", name_kor: "침향" },
+        { note_id: "59", name_kor: "파출리" },
+        { note_id: "60", name_kor: "복숭아" },
+        { note_id: "61", name_kor: "배" },
+        { note_id: "62", name_kor: "모란" },
+        { note_id: "63", name_kor: "감귤" },
+        { note_id: "64", name_kor: "파인애플" },
+        { note_id: "65", name_kor: "핑크페퍼" },
+        { note_id: "66", name_kor: "자두" },
+        { note_id: "67", name_kor: "라즈베리" },
+        { note_id: "68", name_kor: "장미" },
+        { note_id: "69", name_kor: "로즈마리" },
+        { note_id: "70", name_kor: "샤프론" },
+        { note_id: "71", name_kor: "허브" },
+        { note_id: "72", name_kor: "샌달우드" },
+        { note_id: "73", name_kor: "매운향" },
+        { note_id: "74", name_kor: "귤" },
+        { note_id: "75", name_kor: "담배" },
+        { note_id: "76", name_kor: "통카" },
+        { note_id: "77", name_kor: "튜베로즈" },
+        { note_id: "78", name_kor: "바닐라" },
+        { note_id: "79", name_kor: "베티버" },
+        { note_id: "80", name_kor: "바이올렛" },
+        { note_id: "81", name_kor: "바이올렛 리프" },
+        { note_id: "82", name_kor: "화이트 머스크" },
+        { note_id: "83", name_kor: "우디" },
+        { note_id: "84", name_kor: "일랑" },
       ],
     };
   },
   methods: {
-    checkValue() {},
+    checkValue() {
+      http
+        .post(`/user/recomm`, {
+          userId: this.userId,
+          noteIds: this.scent,
+        })
+        .then(() => {
+          let msg = "등록에 문제가 생겼습니다.";
+          // 서버에서 정상적인 값이 넘어 왔을경우 실행.
+          msg = "선호하는 향 설정을 완료하였습니다. 로그인해주세요!";
+          Swal.fire({
+            icon: "success",
+            text: msg,
+          });
+          sessionStorage.removeItem("id");
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            text: err.response.data,
+          });
+        });
+    },
   },
 };
 </script>

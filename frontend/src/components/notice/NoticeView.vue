@@ -3,13 +3,9 @@
     <h1 class="underline">Notice 보기</h1>
     <div class="regist_form">
       <label for="isbn">글번호</label>
-      <div class="view">{{ notice.no }}</div>
+      <div class="view">{{ notice.noticeNo }}</div>
       <label for="title">제목</label>
-      <div class="view">{{ notice.title }}</div>
-      <label for="author">작성자</label>
-      <div class="view">{{ notice.writer }}</div>
-      <label for="price">작성일</label>
-      <div class="view">{{ notice.regtime }}</div>
+      <div class="view">{{ notice.subject }}</div>
       <label for="content">내용</label>
       <div class="view" v-html="notice.content"></div>
       <div style="padding-top: 15px">
@@ -36,8 +32,11 @@ export default {
   },
   created() {
     axios
-      .get(`http://localhost:9999/vue/api/board/${this.$route.params.no}`)
+      .get(
+        `http://j6c101.p.ssafy.io:8081/notice/${this.$route.params.noticeNo}`
+      )
       .then(({ data }) => {
+        console.log(data);
         this.notice = data;
       });
   },

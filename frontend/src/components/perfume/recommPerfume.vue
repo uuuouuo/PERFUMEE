@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-card color="red" dark width="150px">
+    <v-card color="green" dark width="150px">
       <v-card-text class="black--text ms-4">{{ name }}</v-card-text>
       <v-card-text class="black--text ms-4">{{ brand }}</v-card-text>
       <v-img :src="image" height="200px" @click="selectPerfume"></v-img>

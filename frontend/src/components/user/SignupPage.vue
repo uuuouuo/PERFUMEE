@@ -51,11 +51,6 @@
       prepend-icon="mdi-account"
     >
     </v-text-field>
-    <v-file-input
-      v-model="files"
-      ref="refImage"
-      label="File-input"
-    ></v-file-input>
     <v-btn
       class="mt-3"
       color=""
@@ -80,7 +75,6 @@ export default {
       email: "",
       id: "",
       gender: "",
-      files: [],
     };
   },
   methods: {
@@ -123,32 +117,24 @@ export default {
       }
     },
     registUser() {
-      const formdata = new FormData();
-      formdata.append("request", {
-        id: "this.id",
-        password: "this.pass",
-        nickname: "this.nickname",
-        email: "this.email",
-        gender: "this.gender",
-      });
-      formdata.append("image", this.files[0]);
       http
-        .post(`/user/signup`, formdata, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+        .post(`/user/signup`, {
+          id: this.id,
+          password: this.pass,
+          email: this.email,
+          nickname: this.nickname,
+          gender: this.gender,
         })
-        .then(({ data }) => {
+        .then(() => {
+          sessionStorage.setItem("id", this.id);
           let msg = "등록에 문제가 생겼습니다.";
           // 서버에서 정상적인 값이 넘어 왔을경우 실행.
-          if (data === "success") {
-            msg = "회원가입을 축하합니다.";
-            Swal.fire({
-              icon: "success",
-              text: msg,
-            });
-            this.$router.push("/");
-          }
+          msg = "회원가입을 축하합니다. 선호하는 향을 선택해주세요.";
+          Swal.fire({
+            icon: "success",
+            text: msg,
+          });
+          this.$router.push("/scent");
         })
         .catch((err) => {
           Swal.fire({

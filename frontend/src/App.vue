@@ -52,12 +52,11 @@
               아이디 또는 비밀번호를 확인하세요.
             </v-alert> -->
             <v-card-text>
-              <v-text-field label="아이디" v-model="user.user_id">
-              </v-text-field>
+              <v-text-field label="아이디" v-model="user.id"> </v-text-field>
               <v-text-field
                 type="password"
                 label="비밀번호"
-                v-model="user.user_pw"
+                v-model="user.password"
                 @keyup.enter="checkValue"
               >
               </v-text-field>
@@ -73,7 +72,9 @@
           </v-card>
         </v-dialog>
         <v-btn to="/signUp" style="margin: 0px 10px 0px 0px">회원가입</v-btn>
-        <v-btn to="/perfume" style="margin: 0px 10px 0px 0px">향수</v-btn>
+        <v-btn :to="{ name: 'ItemPage' }" style="margin: 0px 10px 0px 0px"
+          >향수</v-btn
+        >
         <v-btn :to="{ name: 'NoticeList' }" style="margin: 0px 10px 0px 0px"
           >공지사항</v-btn
         >
@@ -97,9 +98,10 @@ export default {
   data() {
     return {
       dialog: false,
+      id: "",
       user: {
-        user_id: "",
-        user_pw: "",
+        id: "",
+        password: "",
       },
     };
   },
@@ -116,14 +118,14 @@ export default {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
-        this.user.user_id = "";
-        this.user.user_pw = "";
+        this.user.id = "";
+        this.user.password = "";
         await this.getUserInfo(token);
-        this.$router.push("/scent");
+        this.$router.push("/list");
       }
     },
     checkValue: function () {
-      if (this.user.user_pw === "" || this.user.user_id == "") {
+      if (this.user.password === "" || this.user.id == "") {
         Swal.fire({
           icon: "error",
           title: "Stop!",
@@ -135,6 +137,7 @@ export default {
     },
     onClickLogout() {
       sessionStorage.removeItem("access-token");
+      sessionStorage.removeItem("id");
       this.SET_IS_LOGIN(false);
       sessionStorage.removeItem("vuex");
       this.dialog = false;

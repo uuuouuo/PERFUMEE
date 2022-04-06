@@ -1,31 +1,41 @@
 <template>
   <div id="app">
-    <h2>남자향수추천</h2>
-    <v-app>
-      <v-container fluid grid-list-xl>
-        <v-layout wrap justify-space-around>
-          <v-flex v-for="image in images" :key="image.num">
-            <v-card color="red" dark width="150px">
-              <v-card-text>{{ image.num }}</v-card-text>
-              <v-img :src="image.src" height="200px"></v-img>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-app>
+    <v-card color="blue" dark width="150px">
+      <v-card-text class="black--text ms-4">{{ name }}</v-card-text>
+      <v-card-text class="black--text ms-4">{{ brand }}</v-card-text>
+      <v-img :src="image" height="200px" @click="selectPerfume"></v-img>
+      <v-card-text>
+        <v-row align="center" class="mx-0">
+          <v-rating
+            :value="rating"
+            color="amber"
+            dense
+            half-increments
+            readonly
+            size="14"
+          ></v-rating>
+
+          <div class="black--text ms-4">{{ rating }}</div>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
-const PAGE_NUM = 10;
-
 export default {
-  data: () => ({
-    images: Array.from(new Array(PAGE_NUM)).map((e, i) => ({
-      num: i + 1,
-      src: `https://picsum.photos/300/400?image=${i + 1}`,
-    })),
-  }),
+  props: {
+    no: Number,
+    brand: String,
+    name: String,
+    image: String,
+    rating: Number,
+  },
+  methods: {
+    selectPerfume() {
+      this.$router.push("/detail/" + this.no);
+    },
+  },
 };
 </script>
 
