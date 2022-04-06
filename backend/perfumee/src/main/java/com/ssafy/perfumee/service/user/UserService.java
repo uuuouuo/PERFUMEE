@@ -211,11 +211,11 @@ public class UserService {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     WebClient webClient = WebClient.builder()
-        .baseUrl("localhost:8080")
+        .baseUrl("j6c101.p.ssafy.io:8081")
         .build();
 
     Recom perfumes = webClient.post()
-        .uri("localhost:8000/perfume/recomm")
+        .uri("j6c101.p.ssafy.io:8081/perfume/recomm")
         .accept(MediaType.APPLICATION_JSON)
         .body(BodyInserters.fromValue(notes))
         .retrieve()
