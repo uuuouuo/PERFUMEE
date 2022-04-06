@@ -215,7 +215,7 @@ public class UserService {
         .build();
 
     Recom perfumes = webClient.post()
-        .uri("j6c101.p.ssafy.io:8081/perfume/recomm")
+        .uri("j6c101.p.ssafy.io:8000/perfume/recomm")
         .accept(MediaType.APPLICATION_JSON)
         .body(BodyInserters.fromValue(notes))
         .retrieve()
