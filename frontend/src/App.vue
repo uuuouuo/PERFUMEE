@@ -118,6 +118,7 @@ export default {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
+        sessionStorage.setItem("id", this.user.id);
         this.user.id = "";
         this.user.password = "";
         await this.getUserInfo(token);
