@@ -129,7 +129,7 @@ export default {
   methods: {
     createReview() {
       axios
-        .post(`http://localhost:8081/review`, {
+        .post(`http://j6c101.p.ssafy.io:8081/review`, {
           userId: this.userInfo.id,
           perfumeNo: this.$route.params.no,
           rating: this.rating,
