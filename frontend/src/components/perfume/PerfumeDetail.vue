@@ -88,7 +88,12 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 import PerfumeReview from "./PerfumeReview.vue";
+import Swal from "sweetalert2";
+
+const perfumeStore = "perfumeStore";
+const userStore = "userStore";
 
 export default {
   name: "PerfumeDetail",
@@ -120,6 +125,37 @@ export default {
       .then(({ data }) => {
         this.reviews = data;
       });
+  },
+  methods: {
+    createReview() {
+      axios
+        .post(`http://localhost:8081/review`, {
+          userId: this.userInfo.id,
+          perfumeNo: this.$route.params.no,
+          rating: this.rating,
+          content: this.content,
+        })
+        .then(() => {
+          let msg = "등록에 문제가 생겼습니다.";
+          // 서버에서 정상적인 값이 넘어 왔을경우 실행.
+          msg = "리뷰를 작성하였습니다!";
+          this.$router.push("/detail");
+          Swal.fire({
+            icon: "success",
+            text: msg,
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            text: err.response.data,
+          });
+        });
+    },
+  },
+  computed: {
+    ...mapState(perfumeStore, ["perfumeDetail"]),
+    ...mapState(userStore, ["userInfo"]),
   },
 };
 </script>
