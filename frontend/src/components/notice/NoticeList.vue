@@ -21,8 +21,8 @@
         </thead>
         <tbody>
           <notice-list-row
-            v-for="(notice, index) in notices.reverse()"
-            :key="index"
+            v-for="(notice, noticeNo) in notices.reverse()"
+            :key="noticeNo"
             v-bind="notice"
           ></notice-list-row>
         </tbody>

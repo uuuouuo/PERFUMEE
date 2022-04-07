@@ -95,15 +95,16 @@ export default {
     };
   },
   created() {
-    http
-      .post(`/user/recommper`, {
-        userId: sessionStorage.getItem("id"),
-      })
-      .then(({ data }) => {
-        this.recommPerfumes = data;
-        console.log(this.recommPerfumes);
-      });
-
+    if (this.isLogin) {
+      http
+        .post(`/user/recommper`, {
+          userId: sessionStorage.getItem("id"),
+        })
+        .then(({ data }) => {
+          this.recommPerfumes = data;
+          console.log(this.recommPerfumes);
+        });
+    }
     http.get(`/perfume/male`).then(({ data }) => {
       this.malePerfumes = data.content;
       console.log(this.malePerfumes);
