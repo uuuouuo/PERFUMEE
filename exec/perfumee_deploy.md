@@ -57,7 +57,19 @@
   # 설치 확인
   $ python3 -V
   ```  
+- Django 설치
 
+  ```shell
+  # python 실행
+  $ cd /venvs/recomm/bin
+  $ . activate
+
+  # django 설치
+  $ pip install django
+ 
+  # pandas
+  $ pip install pandas
+  ```
 - git 설치
 
   ```shell
@@ -182,3 +194,12 @@
     $ npm run serve
     ```
 
+- Django 서버 실행
+
+  - projects/recomm/backend/recomm 로 이동
+
+    ```shell
+    $ python manage.py runserver 0:8000
+    $ bg
+    $ disown -h
+    ```
