@@ -73,7 +73,7 @@ export default {
 
     modifyNotice() {
       axios
-        .put(`http://localhost:8080/notice/${this.noticeNo}`, {
+        .put(`http://j6c101.p.ssafy.io:8081/notice/${this.noticeNo}`, {
           noticeNo: this.noticeNo,
           subject: this.subject,
           content: this.content,
