@@ -196,7 +196,7 @@
 
 - Django 서버 실행
 
-  - S06P22C101/backend/recomm/backend/recomm 로 이동
+  - S06P22C101/backend/recomm/ 로 이동
 
     ```shell
     $ python manage.py runserver 0:8000
