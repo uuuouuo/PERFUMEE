@@ -124,7 +124,7 @@
 
 - Backend 빌드 및 배포
 
-  - S06P11C101/backend/perfumee 로 이동
+  - S06P22C101/backend/perfumee 로 이동
 
   - ```shell
     # 쉘 스크립트 권한 부여 및 실행
@@ -187,7 +187,7 @@
 
 - Frontend 빌드 및 배포
 
-  - app/S06P12C204/frontend 로 이동
+  - S06P22C101/frontend/ 로 이동
 
     ```shell
     $ npm install
@@ -196,7 +196,7 @@
 
 - Django 서버 실행
 
-  - projects/recomm/backend/recomm 로 이동
+  - S06P22C101/backend/recomm/backend/recomm 로 이동
 
     ```shell
     $ python manage.py runserver 0:8000
